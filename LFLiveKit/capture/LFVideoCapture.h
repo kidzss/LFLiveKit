@@ -81,7 +81,7 @@
  */
 - (nullable instancetype)initWithVideoConfiguration:(nullable LFLiveVideoConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
-- (void)startRecordingToLocalFileURL:(NSURL *)localFileURL;
+- (void)startRecordingToLocalFileURL:(nonnull NSURL *)localFileURL;
 
 - (void)stopRecording;
 

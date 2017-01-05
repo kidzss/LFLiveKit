@@ -135,7 +135,11 @@
     if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
 }
 
+//回调
 - (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(recordSession:)]) {
+        [self.delegate recordSession:(__bridge id _Nullable)(pixelBuffer)];
+    }
     if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
 }
 
