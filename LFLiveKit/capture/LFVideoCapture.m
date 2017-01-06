@@ -79,8 +79,6 @@
         _videoCamera.horizontallyMirrorFrontFacingCamera = NO;
         _videoCamera.horizontallyMirrorRearFacingCamera = NO;
         _videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
-        BOOL isEnable = self.movieWriter.enabled;
-        
     }
     return _videoCamera;
 }
@@ -101,17 +99,7 @@
     }
 }
 
-//- (void)initMovieWriterWithLocalFileURL:(nonnull NSURL *)localFileURL {
-//   
-//    if(!_movieWriter){
-//        _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:localFileURL size:self.configuration.videoSize];
-//        _movieWriter.encodingLiveVideo = YES;
-//        _movieWriter.shouldPassthroughAudio = YES;
-//        self.videoCamera.audioEncodingTarget = _movieWriter;
-//        self.movieWriter = _movieWriter;
-//    }
-//
-//}
+
 - (void)startRecordingToLocalFileURL:(NSURL *)localFileURL {
     if (self.saveLocalVideo == YES) {
         return;
