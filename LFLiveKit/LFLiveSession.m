@@ -442,5 +442,8 @@
     [self.videoCaptureSource stopRecordingWithCompletionHandler:completionHandler];
 }
 
+- (void)initMovieWriterWithLocalFileURL:(nonnull NSURL *)localFileURL {
+    [self.videoCaptureSource initMovieWriterWithLocalFileURL:localFileURL];
+}
 
 @end

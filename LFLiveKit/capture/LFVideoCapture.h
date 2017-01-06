@@ -86,5 +86,5 @@
 - (void)stopRecording;
 
 - (void)stopRecordingWithCompletionHandler:(void(^)(void))completionHandler;
-
+- (void)initMovieWriterWithLocalFileURL:(nonnull NSURL *)localFileURL;
 @end
