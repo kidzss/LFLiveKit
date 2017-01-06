@@ -79,6 +79,8 @@
         _videoCamera.horizontallyMirrorFrontFacingCamera = NO;
         _videoCamera.horizontallyMirrorRearFacingCamera = NO;
         _videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
+        BOOL isEnable = self.movieWriter.enabled;
+        
     }
     return _videoCamera;
 }
@@ -99,16 +101,16 @@
     }
 }
 
-- (void)initMovieWriterWithLocalFileURL:(nonnull NSURL *)localFileURL {
-   
-    if(!_movieWriter){
-        _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:localFileURL size:self.configuration.videoSize];
-        _movieWriter.encodingLiveVideo = YES;
-        _movieWriter.shouldPassthroughAudio = YES;
-        self.videoCamera.audioEncodingTarget = _movieWriter;
-        self.movieWriter = _movieWriter;
-    }
-
+//- (void)initMovieWriterWithLocalFileURL:(nonnull NSURL *)localFileURL {
+//   
+//    if(!_movieWriter){
+//        _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:localFileURL size:self.configuration.videoSize];
+//        _movieWriter.encodingLiveVideo = YES;
+//        _movieWriter.shouldPassthroughAudio = YES;
+//        self.videoCamera.audioEncodingTarget = _movieWriter;
+//        self.movieWriter = _movieWriter;
+//    }
+//
 }
 - (void)startRecordingToLocalFileURL:(NSURL *)localFileURL {
     if (self.saveLocalVideo == YES) {
@@ -116,11 +118,11 @@
     }
     self.saveLocalVideo = YES;
     self.saveLocalVideoPath = localFileURL;
-//    GPUImageMovieWriter *movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:localFileURL size:self.configuration.videoSize];
-//    movieWriter.encodingLiveVideo = YES;
-//    movieWriter.shouldPassthroughAudio = YES;
-//    self.movieWriter = movieWriter;
-//    self.videoCamera.audioEncodingTarget = movieWriter;
+    GPUImageMovieWriter *movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:localFileURL size:self.configuration.videoSize];
+    movieWriter.encodingLiveVideo = YES;
+    movieWriter.shouldPassthroughAudio = YES;
+    self.movieWriter = movieWriter;
+    self.videoCamera.audioEncodingTarget = movieWriter;
     
     // 添加水印
     if(self.warterMarkView){
@@ -129,6 +131,10 @@
     else {
         [self.output addTarget:self.movieWriter];
     }
+    
+    unlink(localFileURL.absoluteString.UTF8String);
+    [[NSFileManager defaultManager] removeItemAtURL:localFileURL error:nil];
+    
     //加载资源
     [self.movieWriter startRecording];
 }
