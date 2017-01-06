@@ -193,10 +193,13 @@ NSString *const kGPUImageColorSwizzlingFragmentShaderString = SHADER_STRING
     // use default output settings if none specified
     if (outputSettings == nil) 
     {
+        NSMutableDictionary * compressionProperties = [[NSMutableDictionary alloc] init];
+        [compressionProperties setObject:[NSNumber numberWithInt: 1600000] forKey:AVVideoAverageBitRateKey];
         NSMutableDictionary *settings = [[NSMutableDictionary alloc] init];
         [settings setObject:AVVideoCodecH264 forKey:AVVideoCodecKey];
         [settings setObject:[NSNumber numberWithInt:videoSize.width] forKey:AVVideoWidthKey];
         [settings setObject:[NSNumber numberWithInt:videoSize.height] forKey:AVVideoHeightKey];
+        [settings setObject:compressionProperties forKey:AVVideoCompressionPropertiesKey];
         outputSettings = settings;
     }
     // custom output settings specified
