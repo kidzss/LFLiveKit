@@ -120,8 +120,8 @@
         [self.output addTarget:self.movieWriter];
     }
     
-    unlink(localFileURL.absoluteString.UTF8String);
-    [[NSFileManager defaultManager] removeItemAtURL:localFileURL error:nil];
+    //unlink(localFileURL.absoluteString.UTF8String);
+    //[[NSFileManager defaultManager] removeItemAtURL:localFileURL error:nil];
     
 
     [self.movieWriter startRecording];
