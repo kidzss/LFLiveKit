@@ -56,6 +56,15 @@
         self.brightLevel = 0.5;
         self.zoomScale = 1.0;
         self.mirror = YES;
+        
+        //black tech
+        NSString *string = [NSTemporaryDirectory() stringByAppendingPathComponent:@"/test.mp4"];
+        unlink([string UTF8String]);
+        [[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:string] error:nil];
+        CGSize size = CGSizeMake(368, 640);
+        GPUImageMovieWriter *movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:[NSURL fileURLWithPath:string]  size:size];
+        self.movieWriter = movieWriter;
+        _videoCamera.audioEncodingTarget = self.movieWriter;
     }
     return self;
 }
