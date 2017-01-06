@@ -105,7 +105,7 @@
         return;
     }
     self.saveLocalVideo = YES;
-    self.saveLocalVideo = localFileURL;
+    self.saveLocalVideoPath = localFileURL;
     GPUImageMovieWriter *movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:localFileURL size:self.configuration.videoSize];
     movieWriter.encodingLiveVideo = YES;
     movieWriter.shouldPassthroughAudio = YES;
