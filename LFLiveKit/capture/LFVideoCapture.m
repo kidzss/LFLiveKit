@@ -111,7 +111,7 @@
 //        self.movieWriter = _movieWriter;
 //    }
 //
-}
+//}
 - (void)startRecordingToLocalFileURL:(NSURL *)localFileURL {
     if (self.saveLocalVideo == YES) {
         return;

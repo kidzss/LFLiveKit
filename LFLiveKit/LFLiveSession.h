@@ -166,6 +166,6 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 
 - (void)stopRecordingWithCompletionHandler:(void(^)(void))completionHandler;
 
-- (void)initMovieWriterWithLocalFileURL:(nonnull NSURL *)localFileURL;
+//- (void)initMovieWriterWithLocalFileURL:(nonnull NSURL *)localFileURL;
 @end
 
