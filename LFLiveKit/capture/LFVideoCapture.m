@@ -99,17 +99,28 @@
     }
 }
 
+- (void)initMovieWriterWithLocalFileURL:(nonnull NSURL *)localFileURL {
+   
+    if(!_movieWriter){
+        _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:localFileURL size:self.configuration.videoSize];
+        _movieWriter.encodingLiveVideo = YES;
+        _movieWriter.shouldPassthroughAudio = YES;
+        self.videoCamera.audioEncodingTarget = _movieWriter;
+        self.movieWriter = _movieWriter;
+    }
+
+}
 - (void)startRecordingToLocalFileURL:(NSURL *)localFileURL {
     if (self.saveLocalVideo == YES) {
         return;
     }
     self.saveLocalVideo = YES;
     self.saveLocalVideoPath = localFileURL;
-    GPUImageMovieWriter *movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:localFileURL size:self.configuration.videoSize];
-    movieWriter.encodingLiveVideo = YES;
-    movieWriter.shouldPassthroughAudio = YES;
-    self.movieWriter = movieWriter;
-    self.videoCamera.audioEncodingTarget = movieWriter;
+//    GPUImageMovieWriter *movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:localFileURL size:self.configuration.videoSize];
+//    movieWriter.encodingLiveVideo = YES;
+//    movieWriter.shouldPassthroughAudio = YES;
+//    self.movieWriter = movieWriter;
+//    self.videoCamera.audioEncodingTarget = movieWriter;
     
     // 添加水印
     if(self.warterMarkView){
