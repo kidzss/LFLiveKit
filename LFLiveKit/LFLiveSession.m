@@ -441,5 +441,62 @@
     [self.videoCaptureSource stopRecordingWithCompletionHandler:completionHandler];
 }
 
+- (void)addWaterMaskWithMovieURL:(NSURL *)url andMaskImage:(UIImage *)image completionHandler:(void(^)(void))completionHandler {
+    
+    GPUImageMovie *_movieFile = [[GPUImageMovie alloc] initWithURL:url];
+    _movieFile.runBenchmark = YES;
+    _movieFile.playAtActualSpeed = NO;
+    AVAsset *fileas = [AVAsset assetWithURL:url];
+    CGSize movieSize = fileas.naturalSize;
+    
+    UIImageView *waterFliter = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 150)];
+    [waterFliter setImage:image];
+
+    UIView *cotentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, movieSize.width, movieSize.height)];
+    cotentView.backgroundColor = [UIColor clearColor];
+    [cotentView addSubview:waterFliter];
+    
+    GPUImageBrightnessFilter *_brightFilter = [[GPUImageBrightnessFilter alloc] init];
+    _brightFilter.brightness = 0.0f;
+    
+    GPUImageUIElement *_uiElement = [[GPUImageUIElement alloc] initWithView:cotentView];
+    
+    GPUImageAlphaBlendFilter *_blendFliter = [[GPUImageAlphaBlendFilter alloc] init];
+    _blendFliter.mix = 1.0;
+    
+    [_brightFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime Time) {
+        [_uiElement update];
+    }];
+
+    NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Movie_WaterMask.mp4"]];
+    unlink([pathToMovie UTF8String]); // If a file already exists, AVAssetWriter won't let you record new frames, so delete the old movie
+    NSURL * movieURL = [NSURL fileURLWithPath:pathToMovie];
+
+    GPUImageMovieWriter *_movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:movieSize];
+    
+    [_movieFile addTarget:_brightFilter];
+    [_brightFilter addTarget:_blendFliter];
+    [_uiElement addTarget:_blendFliter];
+    
+    [_blendFliter addTarget:_movieWriter];
+    
+    _movieWriter.shouldPassthroughAudio = YES;
+    _movieFile.audioEncodingTarget = _movieWriter;
+    [_movieFile enableSynchronizedEncodingUsingMovieWriter:_movieWriter];
+    
+    [_movieWriter startRecording];
+    [_movieFile startProcessing];
+    
+    __weak typeof(GPUImageMovieWriter) *weakWriter = _movieWriter;
+    [_movieWriter setCompletionBlock:^{
+        
+        [_brightFilter removeTarget:weakWriter];
+        [weakWriter finishRecording];
+        
+        NSLog(@"Watermask completion");
+        completionHandler();
+        
+    }];
+}
 
 @end
