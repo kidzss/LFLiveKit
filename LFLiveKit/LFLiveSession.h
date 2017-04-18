@@ -50,6 +50,8 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /** callback socket errorcode */
 - (void)liveSession:(nullable LFLiveSession *)session errorCode:(LFLiveSocketErrorCode)errorCode;
 - (void)recordSession:(nullable id)sender;
+- (void)outputPixelBuffer:(nullable CVPixelBufferRef)pixelBuffer;
+
 
 @end
 

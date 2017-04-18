@@ -140,6 +140,10 @@
         [self.delegate recordSession:(__bridge id _Nullable)(pixelBuffer)];
     }
     if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
+    if([_delegate respondsToSelector:@selector(outputPixelBuffer:)]) {
+        [_delegate outputPixelBuffer: pixelBuffer];
+    }
+
 }
 
 #pragma mark -- EncoderDelegate
